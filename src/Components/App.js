@@ -1,9 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { CssBaseline } from '@material-ui/core'
+import withStyles from '@material-ui/core/styles/withStyles'
 import { Header, Footer } from './Layouts'
 import Exercises from './Exercises'
 import { muscles, exercises } from '../store'
 import { Provider } from '../context'
+import routes from '../Routes/routes'
+import { Router, Route } from 'react-router-dom'
 
 export default class extends Component {
   state = {
@@ -83,15 +86,24 @@ export default class extends Component {
 
   render() {
     return (
-      <Provider value={this.getContext()}>
-        <CssBaseline />
+      <>
+        <Provider value={this.getContext()}>
+          {/* <CssBaseline />
 
-        <Header />
+          <Header />
 
-        <Exercises />
+          <Exercises />
 
-        <Footer />
-      </Provider>
+          <Footer /> */}
+          <div>
+            
+              {routes.map((route, i) => (
+                <Route key={i} {...route} />
+              ))}
+            
+          </div>
+        </Provider>
+      </>
     )
   }
 }

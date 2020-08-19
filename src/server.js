@@ -1,4 +1,5 @@
 import React from 'react'
+import { StaticRouter, matchPath } from 'react-router-dom'
 import { renderToString } from 'react-dom/server'
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles'
 import express from 'express'
@@ -16,15 +17,19 @@ app.use(express.static('public'))
 if (dev) {
   reload(app)
 }
-
+// todo
+// Add the reducer to fetch initial data 
+// routes
 app.use((req, res) => {
   const sheets = new ServerStyleSheets()
 
   const html = renderToString(
     sheets.collect(
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
+      <StaticRouter location={req.url}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </StaticRouter> 
     )
   )
 

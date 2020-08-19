@@ -5,14 +5,23 @@ import ReactDOM from 'react-dom'
 import { ThemeProvider } from '@material-ui/core/styles'
 import App from './Components/App'
 import theme from './theme'
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom"
+import { Provider } from 'react-redux'
+import configureStore from './configStore'
+
+
+const preloadedState = window.__PRELOADED_STATE__
+delete window.__PRELOADED_STATE__
+const store = configureStore(preloadedState)
 
 ReactDOM.hydrate(
-  <BrowserRouter >
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter >
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>,
+  </Provider>,
   document.getElementById('root'),
   () => {
     document.getElementById('jss-styles').remove()

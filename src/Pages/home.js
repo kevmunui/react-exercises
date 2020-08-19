@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Header, Footer} from '../Components/Layouts'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
@@ -25,7 +26,10 @@ class home extends Component {
 
 	render() {
 		return (
-        <p>{`welcome to the home page`}</p>
+			<>
+				<Header/>
+				<Footer/>
+			</>
 		)
 	}
 }

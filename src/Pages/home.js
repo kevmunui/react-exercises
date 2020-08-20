@@ -20,12 +20,20 @@ const styles = (theme) => ({
 })
 
 class home extends Component {
-	constructor(){
-		super(this.props)
-		const { store } = this.props
-		state = store.getState()
+	constructor(props) {
+		super(props)
+		this.state = {
+			loadingData: false,
+			user: {},
+			credentials: {},
+			posts: [],
+			likes: []
+		}
+		// if (this.state.posts < 1) {
+		// 	console.log(`reloading the state ${this.props.match.params.handle}`)
+		// 	store.dispatch(getUserData(this.props.match.params.handle))
+		// }
 	}
-
 	componentWillUnmount() {
 	
 	}
@@ -35,14 +43,19 @@ class home extends Component {
 	}
 
 	componentDidMount() {
-	
+		if (this.props.posts.length < 1) {
+			//this.props.dispatch(getposts())
+		}
 	}
 
 	render() {
+		const { posts, loadingData, classes, user } = this.props
 		return (
-			<>
-				<p>{'this is the home page'}</p>
-			</>
+			<div>
+				<p>{'Home Feed'}</p>
+				<p>{`Number of post ${posts.length}`}</p>
+				<p>{`${JSON.stringify(posts.map( post => post.body))}`}</p>
+		   </div>
 		)
 	}
 }
@@ -62,8 +75,4 @@ const mapStateToProps = (state) => ({
 	likes: state.likes,
 })
 
-const mapStateToActions = (state) => ({
-	getposts,
-})
-
-export default connect(mapStateToProps, mapStateToActions)(withStyles(styles)(home))
+export default connect(mapStateToProps, { getposts })(withStyles(styles)(home))

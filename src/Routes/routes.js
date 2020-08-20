@@ -11,20 +11,20 @@ import user from '../Pages/user'
 
 const routes = [
 	{
-		path: '/feed',
+		path: '/',
 		exact: true,
 		component: home,
 	},
-	// {
-	// 	path: '/login',
-	// 	exact: true,
-	// 	component: login,
-	// },
-	// {
-	// 	path: '/signup',
-	// 	exact: true,
-	// 	component: signup,
-	// },
+	{
+		path: '/login',
+		exact: true,
+		component: login,
+	},
+	{
+		path: '/signup',
+		exact: true,
+		component: signup,
+	},
 	{
 		path: '/:handle',
 		exact: true,

@@ -23,7 +23,17 @@ const styles = (theme) => ({
 class user extends Component {
 	constructor(props) {
 		super(props)
-		this.state = initialState
+		this.state = {
+			loadingData: false,
+			user: {},
+			credentials: {},
+			posts: [],
+			likes: []
+		}
+		// if (this.state.posts < 1) {
+		// 	console.log(`reloading the state ${this.props.match.params.handle}`)
+		// 	store.dispatch(getUserData(this.props.match.params.handle))
+		// }
 	}
 
 	componentWillUnmount() {
@@ -36,17 +46,24 @@ class user extends Component {
 
 	componentDidMount() {
 		// if (this.state.posts < 1) {
-		// 	this.state.getUserData(this.props.match.params.handle)
+		// 	getUserData(this.props.match.params.handle)
 		// }
 	}
 
 	render() {
-		const { posts, loadingData, classes } = this.props
+		const { posts, loadingData, classes, user } = this.props
 		return (
-            <>
-                <p>{'this is the user page'}</p>
-				<p>{`post are ${JSON.stringify(posts)}`}</p>
-            </>
+            <div>
+				<p>{'use paragraph'}</p>
+				<p>{`Number of post ${posts.length}`}</p>
+				<p>{`User is ${JSON.stringify(user)}`}</p>
+				{ posts ? 
+				 posts.map( post =>{
+					<h1>{post.body}</h1>
+				 }) :
+				 console.log('nothing to post')
+				}
+            </div>
 		)
 	}
 }
@@ -68,8 +85,8 @@ const mapStateToProps = (state) => ({
 	likes: state.likes,
 })
 
-const mapStateToActions = (state) => ({
-	getUserData,
-})
+// const mapStateToActions = (state) => ({
+// 	getUserData,
+// })
 
-export default connect(mapStateToProps, mapStateToActions)(withStyles(styles)(user))
+export default connect(mapStateToProps, { getUserData })(withStyles(styles)(user))

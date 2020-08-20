@@ -9,12 +9,11 @@ import {
 import axios from 'axios'
 // Fetch all public posts
 export const getposts = () => (dispatch) => {
-	console.log('fired')
 	dispatch(startLoadingData())
 	return axios
 		.get('/feed')
 		.then((res) => {
-			console.log(`Fetched feed data ${JSON.stringify(res.data)}`)
+			console.log(`Fetched feed data`)
 			dispatch({
 				type: FETCH_FEED_POSTS,
 				payload: res.data,
@@ -35,17 +34,19 @@ export const getUserData = (userHandle) => (dispatch) => {
 	return axios
 		.get(`/${userHandle}`)
 		.then((res) => {
-			console.log(`Fetched profile data ${JSON.stringify(res.data)}`)
+			console.log(`Fetched profile data for:${userHandle}`)
 			dispatch({
 				type: FETCH_USER_POST_PROFILE,
 				payload: res.data,
 			})
+			dispatch(clearLoadingData())
 		})
 		.catch((err) => {
 			dispatch({
 				type: SET_POST_PROFILE_ERROR,
 				payload: err,
 			})
+			dispatch(clearLoadingData())
 		})
 }
 

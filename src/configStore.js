@@ -1,8 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
+import { createLogger } from 'redux-logger'
+import thunkMiddleware from 'redux-thunk'
 import rootReducer from './Redux/Reducers/rootReducer'
 
-const middleware = [thunk]
+const loggerMiddleware = createLogger()
+
+const middleware = [thunkMiddleware,loggerMiddleware]
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers =

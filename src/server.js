@@ -16,7 +16,6 @@ import axios from 'axios'
 axios.defaults.baseURL =
   'https://us-central1-melan-10eef.cloudfunctions.net/api'
 
-
 const app = express()
 
 const port = 3000
@@ -24,7 +23,6 @@ const dev = process.env.NODE_ENV === 'development'
 
 app.use(cors())
 app.use(express.static('public'))
-
 
 if (dev) {
   reload(app)
@@ -43,73 +41,77 @@ app.use('*', async (req, res, next) => {
   const context = {}
 
   // Initialize data fetchers
-  const promises = routes.reduce((acc, route) => {
-    if (
-      matchPath(req.baseUrl, route) &&
-      route.component &&
-      route.component.initialAction
-    ) {
-      console.log('in the initialAction')
-      acc.push(
-        Promise.resolve(store.dispatch(route.component.initialAction()))
-      )
-    } else if (
-      matchPath(req.baseUrl, route) &&
-      route.component &&
-      route.component.initialActionWithParams
-    ) {
-      console.log('in the initialActionWithParams')
-      acc.push(
-        Promise.resolve(
-          store.dispatch(route.component.initialActionWithParams(routeParams))
+  if (routeParams !== 'favicon.ico') {
+
+    const promises = routes.reduce((acc, route) => {
+      if (
+        matchPath(req.baseUrl, route) &&
+        route.component &&
+        route.component.initialAction
+      ) {
+        console.log(`Current route in ${JSON.stringify(route.path)} initialAction`)
+        acc.push(
+          Promise.resolve(store.dispatch(route.component.initialAction()))
         )
-      )
-    }
-    return acc
-  }, [])
-
-
-  Promise.all(promises)
-			.then(data => {
-        console.log(`Store content is ${JSON.stringify(store)}`)
-        const sheets = new ServerStyleSheets()
-        
-
-        const html = renderToString(
-          sheets.collect(
-            <Provider store={store}>
-              <StaticRouter location={req.url} context={context}>
-                <ThemeProvider theme={theme}>
-                  <App />
-                </ThemeProvider>
-              </StaticRouter> 
-            </Provider>  
+      } else if (
+        matchPath(req.baseUrl, route) &&
+        route.component &&
+        route.component.initialActionWithParams
+      ) {
+        console.log(`Current route in ${JSON.stringify(route.path)} in initialActionWithParams`)
+        console.log(`Current params for path in ${JSON.stringify(routeParams)} in initialActionWithParams`)
+        acc.push(
+          Promise.resolve(
+            store.dispatch(route.component.initialActionWithParams(routeParams))
           )
         )
-
-        const css = sheets.toString()
-        const initialData = store.getState()
-
-        return res.status(200).send(`
-          <!DOCTYPE html>
-          <html lang='en'>
-            <head>
-              <meta charset='utf-8'>
-              <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
-              <title>Melan</title>
-              <style id='jss-styles'>${css}</style>
-              <script>window.__initialData__ = ${serialize(initialData)}</script>
-            </head>
-            <body>
-              <div id='root'>${html}</div>
-              <script src='main.js' async></script>
-              ${dev ? `<script src='/reload/reload.js' async></script>` : ''}
-            </body>
-          </html>
-        `.trim())
-      }).catch(err => {
-        res.status(500).send({error: `Error occured while loading server ${err}`})
-      })
+      }
+      return acc
+    }, [])
+  
+  
+    Promise.all(promises)
+        .then(() => {
+          const sheets = new ServerStyleSheets()
+          
+          const html = renderToString(
+            sheets.collect(
+              <Provider store={store}>
+                <StaticRouter location={req.bauseUrl} context={context}>
+                  <ThemeProvider theme={theme}>
+                    <App />
+                  </ThemeProvider>
+                </StaticRouter> 
+              </Provider>  
+            )
+          )
+  
+          const css = sheets.toString()
+          const initialData = store.getState()
+  
+          return res.status(200).send(`
+            <!DOCTYPE html>
+            <html lang='en'>
+              <head>
+                <meta charset='utf-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+                <title>Melan</title>
+                <style id='jss-styles'>${css}</style>
+                <script>window.__initialData__ = ${serialize(initialData)}</script>
+              </head>
+              <body>
+                <div id='root'>${html}</div>
+                <script src='main.js' async></script>
+                ${dev ? `<script src='/reload/reload.js' async></script>` : ''}
+              </body>
+            </html>
+          `.trim())
+        }).catch(err => {
+          res.status(500).send({error: `Error occured while loading server ${err}`})
+        })
+  }
+ 
+  
 
   })
 

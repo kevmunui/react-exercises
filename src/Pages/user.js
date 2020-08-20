@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Header, Footer} from '../Components/Layouts'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import melanTab from '../Components/Layouts/MelanTab'
 import { getUserData } from '../Redux/Actions/rootAction'
 import { connect } from 'react-redux'
-
+import initialState from '../Redux/initialState'
 
 const styles = (theme) => ({
 	...theme.spreadThis,
@@ -22,10 +21,9 @@ const styles = (theme) => ({
 })
 
 class user extends Component {
-	state = {
-		user: {},
-		loadingData: false,
-		posts: [],
+	constructor(props) {
+		super(props)
+		this.state = initialState
 	}
 
 	componentWillUnmount() {
@@ -33,7 +31,6 @@ class user extends Component {
 	}
 
 	static initialActionWithParams(params) {
-		console.log(`the param is ${params}`)
 		return getUserData(params)
 	}
 
@@ -44,10 +41,11 @@ class user extends Component {
 	}
 
 	render() {
+		const { posts, loadingData, classes } = this.props
 		return (
             <>
-                <Header/>
-                <Footer/>
+                <p>{'this is the user page'}</p>
+				<p>{`post are ${JSON.stringify(posts)}`}</p>
             </>
 		)
 	}

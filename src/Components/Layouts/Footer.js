@@ -3,16 +3,16 @@ import { withWidth, AppBar, Tabs, Tab } from '@material-ui/core'
 import { withContext } from '../../context'
 
 class Footer extends Component {
+  state = {
+    index: 0
+  }
+
   onIndexSelect = (e, index) => {
-    const { onCategorySelect, muscles } = this.props
-    onCategorySelect(index === 0 ? '' : muscles[index - 1])
+    this.setState({index:index})
   }
 
   getIndex = () => {
-    const { category, muscles } = this.props
-    return category
-      ? muscles.findIndex(group => group === category) + 1
-      : 0
+    return this.state.index
   }
 
   render() {
@@ -30,7 +30,8 @@ class Footer extends Component {
           centered={!isMobile}
         >
           <Tab label="All" />
-            {muscles.map(group => <Tab key={group} label={group} />)}
+          <Tab label="one" />
+          <Tab label="two" />
           </Tabs>
       </AppBar>
     )

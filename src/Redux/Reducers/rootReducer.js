@@ -32,6 +32,9 @@ export default function (state = initialState, action) {
 			loadingData: true,
 		}
 	case FETCH_USER_POST_PROFILE:
+		console.log(`action FETCH_USER_POST_PROFILE dispatched`)
+		console.log(`The state is ${JSON.stringify(state)}`)
+		console.log(`The payload is ${JSON.stringify(action.payload.user)}`)
 		return {
 			...state,
 			loadingData: true,

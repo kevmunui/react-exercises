@@ -25,11 +25,11 @@ const routes = [
 	// 	exact: true,
 	// 	component: signup,
 	// },
-	// {
-	// 	path: '/:handle',
-	// 	exact: true,
-	// 	component: user,
-	// },
+	{
+		path: '/:handle',
+		exact: true,
+		component: user,
+	},
 ]
 
 export default routes

@@ -34,8 +34,10 @@ if (dev) {
 // routes
 app.use('*', async (req, res, next) => {
 
-  const routeParams = req.baseUrl.split('/')[1]
-  console.log(`Req Obj:${JSON.stringify(req.headers)}`)
+  let routeParams = '/'
+  if (req.baseUrl !== '/') {
+    routeParams = req.baseUrl.split('/')[1]
+  }
   console.log(`Req params:${routeParams}`)
   const store = configureStore(initialState)
   const context = {}
@@ -68,7 +70,8 @@ app.use('*', async (req, res, next) => {
 
 
   Promise.all(promises)
-			.then(() => {
+			.then(data => {
+        console.log(`Store content is ${JSON.stringify(store)}`)
         const sheets = new ServerStyleSheets()
         
 

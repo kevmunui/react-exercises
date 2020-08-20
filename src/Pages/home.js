@@ -20,12 +20,10 @@ const styles = (theme) => ({
 })
 
 class home extends Component {
-	state = {
-		user: {},
-		postIdParam: 0,
-		loadingData: false,
-		posts: [],
-		post:{}
+	constructor(){
+		super(this.props)
+		const { store } = this.props
+		state = store.getState()
 	}
 
 	componentWillUnmount() {
@@ -43,8 +41,7 @@ class home extends Component {
 	render() {
 		return (
 			<>
-				<Header/>
-				<Footer/>
+				<p>{'this is the home page'}</p>
 			</>
 		)
 	}

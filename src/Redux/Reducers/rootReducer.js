@@ -17,9 +17,6 @@ export default function (state = initialState, action) {
 			posts: action.payload,
 		}
 	case STOP_LOADING_DATA:
-		console.log(`action STOP_LOADING_DATA dispatched`)
-		console.log(`${JSON.stringify(state.posts.length)} posts fetched`)
-		console.log(`Userhandle ${JSON.stringify(state.user.handle)} fetched`)
 		return {
 			...state,
 			loadingData: false,
@@ -35,9 +32,6 @@ export default function (state = initialState, action) {
 			loadingData: true,
 		}
 	case FETCH_USER_POST_PROFILE:
-		console.log(`action FETCH_USER_POST_PROFILE dispatched`)
-		console.log(`${JSON.stringify(state.posts.length)} posts fetched`)
-		console.log(`Userhandle ${JSON.stringify(action.payload.user.handle)} fetched`)
 		return {
 			...state,
 			...action.payload,

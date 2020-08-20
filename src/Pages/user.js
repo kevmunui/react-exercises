@@ -57,12 +57,7 @@ class user extends Component {
 				<p>{'use paragraph'}</p>
 				<p>{`Number of post ${posts.length}`}</p>
 				<p>{`User is ${JSON.stringify(user)}`}</p>
-				{ posts ? 
-				 posts.map( post =>{
-					<h1>{post.body}</h1>
-				 }) :
-				 console.log('nothing to post')
-				}
+				<p>{`${JSON.stringify(posts.map( post => post.body))}`}</p>
             </div>
 		)
 	}

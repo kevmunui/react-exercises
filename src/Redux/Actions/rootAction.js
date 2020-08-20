@@ -7,8 +7,6 @@ import {
 	SET_POST_PROFILE_ERROR,
 } from '../types'
 import axios from 'axios'
-axios.defaults.baseURL =
-  'https://us-central1-melan-10eef.cloudfunctions.net/api'
 // Fetch all public posts
 export const getposts = () => (dispatch) => {
 	dispatch(startLoadingData())
@@ -32,7 +30,6 @@ export const getposts = () => (dispatch) => {
 // Fetch users profile
 export const getUserData = (userHandle) => (dispatch) => {
   dispatch(startLoadingData())
-  console.log(`Firing the search for data here ${userHandle}`)
 	return axios
 		.get(`/${userHandle}`)
 		.then((res) => {

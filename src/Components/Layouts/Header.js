@@ -17,7 +17,7 @@ export default withStyles(styles)(({ classes }) => (
         color="inherit"
         className={classes.flex}
       >
-        Exercise Database
+        Melan
       </Typography>
 
       <CreateDialog />
